@@ -14,6 +14,8 @@ import Card from "@/components/events/Card";
 export default {
   layout: "app",
 
+  middleware: "auth",
+
   components: {
     Card
   },
@@ -38,15 +40,6 @@ export default {
     // carregar eventos
     await this.find();
   }
-
-  // async asyncData({ $axios, store }) {
-  //   // login
-  //   $axios.setToken(store.getters["user/token"], "Bearer");
-
-  //   const data = await $axios.$get("api/events");
-  //   //
-  //   store.commit("events/set", data);
-  // }
 };
 </script>
 

@@ -6,8 +6,7 @@ export default {
   ** Headers of the page
   */
 	head: {
-		titleTemplate: '%s - ' + process.env.npm_package_name,
-		title: process.env.npm_package_name || '',
+		title: 'OW Interactive - Eventos',
 		meta: [
 			{ charset: 'utf-8' },
 			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -26,7 +25,7 @@ export default {
 	/*
   ** Plugins to load before mounting the App
   */
-	plugins: [ '~/plugins/axios' ],
+	plugins: [ '~/plugins/axios', '~/plugins/vuex-persist' ],
 	/*
   ** Nuxt.js dev-modules
   */
@@ -43,9 +42,10 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
 	axios: {
-		baseURL: 'http://ow-interactive.local',
+		baseURL: 'http://localhost:8000',
 		common: {
-			Accept: 'application/json'
+			Accept: 'application/json',
+			'X-Requested-With': 'XMLHttpRequest'
 		}
 	},
 	/*

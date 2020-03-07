@@ -54,20 +54,23 @@
       <v-icon>mdi-calendar-plus</v-icon>
     </v-btn>
     <v-dialog v-model="dialog" width="640px">
-      <add-event @close="dialog = $event" incrementing />
+      <add-event @close="dialog = $event" incrementing @save="insertEvent" />
     </v-dialog>
   </v-app>
 </template>
 
 <script>
 import AddEvent from "@/components/events/Form";
+import { mapGetters, mapActions } from "vuex";
 export default {
   props: {
     source: String
   },
+
   components: {
     AddEvent
   },
+
   data: () => ({
     dialog: false,
     drawer: null,
@@ -78,10 +81,34 @@ export default {
     ]
   }),
 
+  computed: {
+    ...mapGetters({
+      token: "user/token"
+    })
+  },
+
   methods: {
     exportToCsv() {
-      alert("exportar");
-    }
+      let ref = document.createElement("a");
+      ref.href = "http://ow-interactive.local/api/export?token=" + this.token;
+      ref.download = true;
+
+      ref.click();
+    },
+
+    async insertEvent(form) {
+      try {
+        //
+        await this.add(form);
+        //
+        this.dialog = false;
+      } catch (error) {
+        conosle.warn(error);
+      }
+    },
+    ...mapActions({
+      add: "events/create"
+    })
   }
 };
 </script>

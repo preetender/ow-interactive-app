@@ -4,21 +4,17 @@
     <v-container>
       <v-row class="mx-2">
         <v-col cols="12">
-          <v-text-field label="Titulo" placeholder="Meu evento" />
+          <v-text-field label="Titulo" placeholder="Meu evento" v-model="form.title" />
         </v-col>
 
         <v-col cols="6">
-          <v-text-field
-            label="Data de término"
-            v-mask="'##/##/#### ##:##'"
-            v-model="form.start_at"
-          />
+          <v-text-field label="Data de inicio" type="datetime-local" v-model="form.start_at" />
         </v-col>
 
         <v-col cols="6">
-          <!-- mask="##/##/#### ##:##" -->
-          <v-text-field label="Data de término" v-mask="'##/##/#### ##:##'" v-model="form.end_at" />
+          <v-text-field label="Data de término" v-model="form.end_at" type="datetime-local" />
         </v-col>
+
         <v-col cols="12">
           <v-autocomplete
             label="Usuários"
@@ -34,7 +30,12 @@
         </v-col>
 
         <v-col cols="12">
-          <v-textarea label="Descrição" placeholder="Detalhes do evento" rows="1"></v-textarea>
+          <v-textarea
+            label="Descrição"
+            placeholder="Detalhes do evento"
+            rows="1"
+            v-model="form.description"
+          ></v-textarea>
         </v-col>
       </v-row>
     </v-container>
@@ -47,7 +48,8 @@
 </template>
 
 <script>
-import { mask } from "vue-the-mask";
+import { clone } from "lodash";
+
 export default {
   props: {
     value: {
@@ -64,10 +66,6 @@ export default {
       type: Boolean,
       default: false
     }
-  },
-
-  directives: {
-    mask
   },
 
   data: () => ({
@@ -96,14 +94,16 @@ export default {
     },
 
     cancel() {
-      this.form = Object.assign({}, this.value);
-      //
+      // copiar
+      this.form = clone(this.value);
+      // fechar
       this.$emit("close");
     }
   },
 
-  mounted() {
-    this.form = Object.assign({}, this.value);
+  created() {
+    // copiar objeto
+    this.form = clone(this.value);
   }
 };
 </script>

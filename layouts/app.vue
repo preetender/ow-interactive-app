@@ -2,7 +2,7 @@
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
       <v-list dense>
-        <v-list-item link to="/dashboard" absolute>
+        <v-list-item link to="/dashboard" exact nuxt>
           <v-list-item-action>
             <v-icon>mdi-home</v-icon>
           </v-list-item-action>
@@ -10,7 +10,7 @@
             <v-list-item-title>Inicio</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/dashboard/profile" absolute>
+        <v-list-item link to="/dashboard/profile" exact nuxt>
           <v-list-item-action>
             <v-icon>mdi-account</v-icon>
           </v-list-item-action>
@@ -18,7 +18,7 @@
             <v-list-item-title>Meus dados</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click.prevent="alert('export.')">
+        <v-list-item @click.prevent="exportToCsv">
           <v-list-item-action>
             <v-icon>mdi-file-export</v-icon>
           </v-list-item-action>
@@ -29,7 +29,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="blue darken-3" dark>
+    <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
         <span class="hidden-sm-and-down">OW Interactive</span>
@@ -50,17 +50,17 @@
     <v-content>
       <nuxt />
     </v-content>
-    <v-btn bottom color="pink" dark fab fixed right @click="dialog = !dialog">
+    <v-btn bottom dark fab fixed right @click="dialog = !dialog">
       <v-icon>mdi-calendar-plus</v-icon>
     </v-btn>
     <v-dialog v-model="dialog" width="640px">
-      <AddEvent @close="dialog = $event" />
+      <add-event @close="dialog = $event" incrementing />
     </v-dialog>
   </v-app>
 </template>
 
 <script>
-import AddEvent from "@/components/Events/AddEvent";
+import AddEvent from "@/components/events/Form";
 export default {
   props: {
     source: String
@@ -76,6 +76,12 @@ export default {
       { icon: "mdi-account", text: "Configurações", to: "/dashboard/profile" },
       { icon: "mdi-file-export", text: "Exportar" }
     ]
-  })
+  }),
+
+  methods: {
+    exportToCsv() {
+      alert("exportar");
+    }
+  }
 };
 </script>

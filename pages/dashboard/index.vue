@@ -1,14 +1,21 @@
 <template>
   <v-container>
     <v-row>
-      <v-col>Olá mundo!</v-col>
+      <v-col md="4">
+        <card :event="{a: 1}" />
+      </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import Card from "@/components/events/Card";
 export default {
-  layout: "app"
+  layout: "app",
+
+  components: {
+    Card
+  }
 };
 </script>
 

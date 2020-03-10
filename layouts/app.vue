@@ -43,7 +43,7 @@
         class="hidden-sm-and-down"
       />
       <v-spacer />
-      <v-btn icon>
+      <v-btn icon @click="logout">
         <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-app-bar>
@@ -107,7 +107,8 @@ export default {
       }
     },
     ...mapActions({
-      add: "events/create"
+      add: "events/create",
+      logout: "user/logout"
     })
   }
 };

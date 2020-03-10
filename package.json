@@ -1,25 +1,24 @@
 {
-  "name": "ow-interactive-app",
-  "version": "1.0.0",
-  "description": "My groundbreaking Nuxt.js project",
-  "author": "Cesar Augusto",
-  "private": true,
-  "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate"
-  },
-  "dependencies": {
-    "@nuxtjs/axios": "^5.3.6",
-    "axios": "^0.19.2",
-    "lodash": "^4.17.15",
-    "nuxt": "^2.0.0",
-    "vue-the-mask": "^0.11.1",
-    "vuelidate": "^0.7.5",
-    "vuex-persist": "^2.2.0"
-  },
-  "devDependencies": {
-    "@nuxtjs/vuetify": "^1.0.0"
-  }
+	"name": "ow-interactive-app",
+	"version": "1.0.0",
+	"description": "My groundbreaking Nuxt.js project",
+	"author": "Cesar Augusto",
+	"private": true,
+	"scripts": {
+		"dev": "nuxt",
+		"build": "nuxt build",
+		"start": "nuxt start",
+		"generate": "nuxt generate"
+	},
+	"dependencies": {
+		"@nuxtjs/axios": "^5.3.6",
+		"axios": "^0.19.2",
+		"lodash": "^4.17.15",
+		"nuxt": "^2.0.0",
+		"vuelidate": "^0.7.5",
+		"vuex-persist": "^2.2.0"
+	},
+	"devDependencies": {
+		"@nuxtjs/vuetify": "^1.0.0"
+	}
 }

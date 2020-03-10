@@ -1,7 +1,15 @@
-export default function({ store, redirect }) {
-	//
-	const token = store.getters['user/token'];
+export default function({ store, route, redirect }) {
+	const data = JSON.parse(window.localStorage.getItem('ow_interactive'));
+
+	const { user: { token = null } } = data;
 
 	// ir para login
-	if (!token) return redirect('/');
+	if (!token) {
+		redirect('/');
+	}
+
+	console.log(data);
+
+	// informar usuario logado.
+	store.commit('user/set', data.user);
 }

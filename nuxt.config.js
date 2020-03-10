@@ -1,7 +1,7 @@
 import colors from 'vuetify/es5/util/colors';
 
 export default {
-	mode: 'universal',
+	mode: 'spa',
 	/*
   ** Headers of the page
   */
@@ -25,7 +25,11 @@ export default {
 	/*
   ** Plugins to load before mounting the App
   */
-	plugins: [ '~/plugins/axios', '~/plugins/vuex-persist' ],
+	plugins: [
+		{ src: '~/plugins/axios', ssr: false },
+		{ src: '~/plugins/vuex', ssr: false },
+		{ src: '~/plugins/vuelidate', ssr: false }
+	],
 	/*
   ** Nuxt.js dev-modules
   */
@@ -42,7 +46,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
 	axios: {
-		baseURL: 'http://localhost:8000',
+		baseURL: 'http://ow-interactive.local',
 		common: {
 			Accept: 'application/json',
 			'X-Requested-With': 'XMLHttpRequest'

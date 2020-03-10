@@ -20,17 +20,17 @@
           <v-text-field
             label="E-mail"
             type="email"
-            :rules="[rules.email]"
             placeholder="contato@provedor.com"
             v-model="credentials.email"
+            @input="$v.credentials.email.$touch"
           />
           <v-text-field
             id="password"
             label="Senha"
             type="password"
             placeholder="******"
-            :rules="[rules.required, rules.password]"
             v-model="credentials.password"
+            @input="$v.credentials.password.$touch"
           />
         </v-form>
       </v-card-text>
@@ -41,46 +41,73 @@
           color="primary"
           @click="send(credentials)"
           :loading="loading"
-          :disabled="loading"
+          :disabled="loading || $v.credentials.$invalid"
         >Acessar</v-btn>
       </v-card-actions>
     </v-card>
+    <p class="text-center mt-4">
+      <v-btn text to="/register">Faça seu cadastro</v-btn>
+    </p>
   </div>
 </template>
 
 <script>
-import { email } from "vuelidate/lib/validators";
+import { email, required } from "vuelidate/lib/validators";
 
 export default {
+  props: {
+    emailCreated: String
+  },
   data: () => ({
     credentials: {
       email: null,
       password: null
     },
-
-    rules: {
-      required: value => !!value || "Um valor é obrigatório.",
-      email: value => email(value) || "Informe um email válido.",
-      password: value =>
-        new RegExp(/^\d{6}$/).test(value) || "A senha requer 6 digitos."
-    },
-
     errors: [],
-
     loading: false
   }),
 
+  computed: {
+    emailErrors() {
+      const rule = this.$v.form.email;
+      const messages = [];
+      if (!rule.$dirty) return messages;
+      !rule.required && messages.push("o e-mail é requerido.");
+      !rule.email && messages.push("informe um endereço válido.");
+      return messages;
+    },
+    passwordErrors() {
+      const rule = this.$v.form.password;
+      const messages = [];
+      if (!rule.$dirty) return messages;
+      !rule.required && messages.push("a senha é requerido.");
+      !rule.equal && messages.push("a senha deve conter 6 digitos.");
+      return messages;
+    }
+  },
+
+  validations: {
+    credentials: {
+      email: {
+        required,
+        email
+      },
+      password: {
+        required,
+        regex: value => /^\d{6}$/.test(value)
+      }
+    }
+  },
+
   methods: {
     /**
-     * @param {*} credentials
+     * @param {*} form
      */
-    async send(credentials) {
+    async send(form) {
       this.loading = true;
 
       try {
-        const response = await this.$store.dispatch("user/login", credentials);
-        //
-        this.route.to("/dashboard");
+        const response = await this.$store.dispatch("user/login", form);
       } catch (e) {
         if (!e.hasOwnProperty("errors")) {
           this.errors.push("falhou! problema interno.");

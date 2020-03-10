@@ -1,5 +1,4 @@
 export default {
-	account: (state) => state.account,
-
+	account: (state) => state.user,
 	token: (state) => state.token
 };

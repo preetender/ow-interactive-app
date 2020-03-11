@@ -34,14 +34,6 @@
       <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
         <span class="hidden-sm-and-down">OW Interactive</span>
       </v-toolbar-title>
-      <v-text-field
-        flat
-        solo-inverted
-        hide-details
-        prepend-inner-icon="mdi-magnify"
-        label="Buscar eventos"
-        class="hidden-sm-and-down"
-      />
       <v-spacer />
       <v-btn icon @click="logout">
         <v-icon>mdi-logout</v-icon>
@@ -103,13 +95,19 @@ export default {
         //
         this.dialog = false;
       } catch (error) {
-        conosle.warn(error);
+        console.warn(error);
       }
     },
     ...mapActions({
       add: "events/create",
-      logout: "user/logout"
+      logout: "user/logout",
+      loadUsers: "findUsers"
     })
+  },
+
+  async mounted() {
+    //
+    await this.loadUsers();
   }
 };
 </script>

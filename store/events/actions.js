@@ -4,7 +4,7 @@ export default {
    * @param {*} filter
    */
 	async find(store, data = {}) {
-		const { filter = 'all', paginate = 10, page = 1 } = data;
+		const { filter = 'Today', paginate = 10, page = 1 } = data;
 		const { token } = store.rootState.user;
 		//
 		this.$axios.setToken(token, 'Bearer');

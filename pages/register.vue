@@ -13,7 +13,7 @@
     />
 
     <!-- begin: success -->
-    <v-snackbar v-model="okay" :timeout="1500" top>
+    <v-snackbar v-model="okay" :timeout="1500" color="success" top dark>
       Cadastro realizado com sucesso.
       <v-btn color="primary" text @click="okay = false">ok</v-btn>
     </v-snackbar>

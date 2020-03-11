@@ -1,36 +1,45 @@
 <template>
-  <v-card>
-    <v-card-title>{{ event.title }}</v-card-title>
+  <v-card dense>
+    <v-toolbar prominent elevation="0" color="primary" dark>
+      <v-toolbar-title>{{ event.title }}</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <div v-if="user_id === parseInt(event.user_id)">
+        <v-btn icon @click="forget(event.id)">
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+        <v-btn icon @click="edit = !edit">
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
+      </div>
+    </v-toolbar>
+    <v-divider></v-divider>
     <v-card-text>
       <p class="text--primary">Data inicio • {{ event.dates.start_at }}</p>
-      <v-divider></v-divider>
+      <p class="text--primary">Data encerramento • {{ event.dates.end_at }}</p>
       <div class="my-2" v-html="description"></div>
     </v-card-text>
-    <v-card-text>
+    <div class="ma-2" v-if="event.users.length > 0">
+      <v-subheader class="px-1">Convidados</v-subheader>
       <v-chip-group active-class="primary white--text" column>
-        <v-chip>usuario</v-chip>
+        <v-chip
+          small
+          v-for="(user,index) in event.users"
+          :key="index"
+          :color="user.pivot.confirmed == 1 ? 'success' : 'grey'"
+        >{{ user_id === user.id ? 'você' : user.name }}</v-chip>
       </v-chip-group>
-    </v-card-text>
-
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn icon @click="forget(event.id)">
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
-      <v-btn icon @click="edit = !edit">
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-    </v-card-actions>
-
+    </div>
+    <!-- begin: modal -->
     <v-dialog v-model="edit" width="640px">
       <edit-event @close="edit = $event" v-model="event" @save="eventUpdate" />
     </v-dialog>
+    <!-- end: modal -->
   </v-card>
 </template>
 
 <script>
 import EditEvent from "@/components/events/Form";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   props: {
@@ -49,7 +58,9 @@ export default {
     description() {
       const { description } = this.event;
       return description ? description : "<i>Nenhuma descrição disponível.</i>";
-    }
+    },
+
+    ...mapGetters({ user_id: "user/id" })
   },
   methods: {
     /**

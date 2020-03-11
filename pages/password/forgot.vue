@@ -11,21 +11,29 @@
       transition="scale-transition"
     >{{ message }}</v-alert>
 
+    <!-- begin: success -->
+    <v-snackbar
+      v-model="okay"
+      :timeout="1500"
+      color="success"
+      top
+      dark
+    >Um e-mail foi enviado contendo instruções.</v-snackbar>
+    <!-- end: success -->
+
     <v-card class="elevation-12">
       <v-toolbar color="primary" dark flat>
         <v-toolbar-title>Esqueceu a senha?</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
-        <v-form>
-          <v-text-field
-            label="E-mail"
-            type="email"
-            placeholder="contato@provedor.com"
-            v-model="form.email"
-            @input="$v.form.email.$touch"
-            :error-messages="emailErrors"
-          />
-        </v-form>
+        <v-text-field
+          label="E-mail"
+          type="email"
+          placeholder="contato@provedor.com"
+          v-model="form.email"
+          @input="$v.form.email.$touch"
+          :error-messages="emailErrors"
+        />
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" text to="/">Voltar</v-btn>
@@ -48,6 +56,7 @@ import { email, required } from "vuelidate/lib/validators";
 export default {
   data: () => ({
     loading: false,
+    okay: false,
     form: {
       email: null
     },
@@ -93,7 +102,9 @@ export default {
       try {
         const response = await this.$axios.post("api/password/send", form);
         //
-        console.log(response);
+        this.okay = true;
+        // ir para login
+        setTimeout(() => this.$router.push("/"), 2000);
       } catch (e) {
         if (!e.hasOwnProperty("errors")) {
           this.errors.push("falhou! problema interno.");
